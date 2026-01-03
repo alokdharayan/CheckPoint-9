@@ -1,65 +1,58 @@
+#include "geometry_msgs/msg/twist.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/laser_scan.hpp"
-#include "geometry_msgs/msg/twist.hpp"
+#include <cmath>
 
 using std::placeholders::_1;
 
-class PreApproach : public rclcpp::Node
-{
+class PreApproach : public rclcpp::Node {
 public:
-  PreApproach() : Node("pre_approach"), stopped_(false), rotated_(false)
-  {
-    obstacle_ = this->declare_parameter("obstacle", 0.3);
-    degrees_  = this->declare_parameter("degrees", -90.0);
+  PreApproach() : Node("pre_approach") {
+    obstacle_ = declare_parameter("obstacle", 0.3);
+    degrees_ = declare_parameter("degrees", -90.0);
 
-    scan_sub_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
-      "/scan", 10, std::bind(&PreApproach::scanCallback, this, _1));
+    // Correct QoS for laser data
+    scan_sub_ = create_subscription<sensor_msgs::msg::LaserScan>(
+        "/scan", rclcpp::SensorDataQoS(),
+        std::bind(&PreApproach::scanCallback, this, _1));
 
-    cmd_pub_ = this->create_publisher<geometry_msgs::msg::Twist>(
-      "/robot/cmd_vel", 10);
+    // Publish to generic cmd_vel (will be remapped)
+    cmd_pub_ = create_publisher<geometry_msgs::msg::Twist>("/cmd_vel", 10);
 
-    timer_ = this->create_wall_timer(
-      std::chrono::milliseconds(100),
-      std::bind(&PreApproach::controlLoop, this));
+    timer_ = create_wall_timer(std::chrono::milliseconds(100),
+                               std::bind(&PreApproach::controlLoop, this));
+
+    RCLCPP_INFO(get_logger(), "Pre-approach node started");
   }
 
 private:
-  void scanCallback(const sensor_msgs::msg::LaserScan::SharedPtr msg)
-  {
-    int center = msg->ranges.size() / 2;
-    front_dist_ = msg->ranges[center];
+  void scanCallback(const sensor_msgs::msg::LaserScan::SharedPtr msg) {
+    float d = msg->ranges[msg->ranges.size() / 2];
+
+    // Ignore invalid Gazebo readings
+    if (d > 0.05)
+      front_distance_ = d;
   }
 
-  void controlLoop()
-  {
+  void controlLoop() {
     geometry_msgs::msg::Twist cmd;
 
-    if (!stopped_)
-    {
-      if (front_dist_ > obstacle_)
-      {
+    if (!stopped_) {
+      if (front_distance_ > obstacle_) {
         cmd.linear.x = 0.2;
-      }
-      else
-      {
+      } else {
         stopped_ = true;
         start_time_ = now();
       }
-    }
-    else if (!rotated_)
-    {
+    } else if (!rotated_) {
       double rad = degrees_ * M_PI / 180.0;
-      double ang_vel = (rad > 0) ? 0.5 : -0.5;
-      double duration = std::abs(rad / ang_vel);
+      double w = (rad > 0) ? 0.5 : -0.5;
+      double t = std::abs(rad / w);
 
-      if ((now() - start_time_).seconds() < duration)
-      {
-        cmd.angular.z = ang_vel;
-      }
+      if ((now() - start_time_).seconds() < t)
+        cmd.angular.z = w;
       else
-      {
         rotated_ = true;
-      }
     }
 
     cmd_pub_->publish(cmd);
@@ -71,13 +64,13 @@ private:
 
   rclcpp::Time start_time_;
   double obstacle_, degrees_;
-  float front_dist_{10.0};
+  float front_distance_ = 10.0;
 
-  bool stopped_, rotated_;
+  bool stopped_ = false;
+  bool rotated_ = false;
 };
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
   rclcpp::init(argc, argv);
   rclcpp::spin(std::make_shared<PreApproach>());
   rclcpp::shutdown();

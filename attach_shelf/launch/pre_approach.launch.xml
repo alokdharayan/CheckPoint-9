@@ -1,0 +1,10 @@
+<launch>
+  <node pkg="attach_shelf" exec="pre_approach" output="screen">
+    <param name="obstacle" value="$(var obstacle)"/>
+    <param name="degrees" value="$(var degrees)"/>
+
+    <!-- REAL RB1 CONTROLLER -->
+    <remap from="/cmd_vel"
+           to="/diffbot_base_controller/cmd_vel_unstamped"/>
+  </node>
+</launch>

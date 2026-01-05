@@ -1,0 +1,43 @@
+[0.026s] Invoking command in '/home/user/ros2_ws/src/CheckPoint-9/build/attach_shelf': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/user/sim_ws/install/attach_cart:/home/simulations/ros2_sims_ws/install/rclrs_tests:/home/simulations/ros2_sims_ws/install/examples_rclrs_minimal_client_service:/home/simulations/ros2_sims_ws/install/sensor_msgs_py:/home/simulations/ros2_sims_ws/install/examples_rclrs_minimal_pub_sub:/home/simulations/ros2_sims_ws/install/examples_rclrs_message_demo:/home/simulations/ros2_sims_ws/install/rclrs:/home/simulations/ros2_sims_ws/install/rosidl_runtime_rs:/opt/ros/humble _=/usr/bin/env /usr/bin/cmake /home/user/ros2_ws/src/CheckPoint-9/attach_shelf -DCMAKE_INSTALL_PREFIX=/home/user/ros2_ws/src/CheckPoint-9/install/attach_shelf
+[0.049s] [33mCMake Warning (dev) in CMakeLists.txt:
+[0.049s]   No project() command is present.  The top-level CMakeLists.txt file must
+[0.049s]   contain a literal, direct call to the project() command.  Add a line of
+[0.050s]   code such as
+[0.050s] 
+[0.050s]     project(ProjectName)
+[0.050s] 
+[0.050s]   near the top of the file, but after cmake_minimum_required().
+[0.050s] 
+[0.050s]   CMake is pretending there is a "project(Project)" command on the first
+[0.051s]   line.
+[0.051s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[0.051s] [0m
+[0.136s] -- The C compiler identification is GNU 11.4.0
+[0.216s] -- The CXX compiler identification is GNU 11.4.0
+[0.228s] -- Detecting C compiler ABI info
+[0.344s] -- Detecting C compiler ABI info - done
+[0.355s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.355s] -- Detecting C compile features
+[0.355s] -- Detecting C compile features - done
+[0.359s] -- Detecting CXX compiler ABI info
+[0.486s] -- Detecting CXX compiler ABI info - done
+[0.500s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.501s] -- Detecting CXX compile features
+[0.502s] -- Detecting CXX compile features - done
+[0.503s] [31mCMake Error at CMakeLists.txt:2 (ament_target_dependencies):
+[0.503s]   Unknown CMake command "ament_target_dependencies".
+[0.504s] 
+[0.504s] [0m
+[0.504s] [33mCMake Warning (dev) in CMakeLists.txt:
+[0.504s]   No cmake_minimum_required command is present.  A line of code such as
+[0.504s] 
+[0.504s]     cmake_minimum_required(VERSION 3.22)
+[0.504s] 
+[0.505s]   should be added at the top of the file.  The version specified may be lower
+[0.505s]   if you wish to support older CMake versions for this project.  For more
+[0.505s]   information run "cmake --help-policy CMP0000".
+[0.505s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[0.505s] [0m
+[0.505s] -- Configuring incomplete, errors occurred!
+[0.505s] See also "/home/user/ros2_ws/src/CheckPoint-9/build/attach_shelf/CMakeFiles/CMakeOutput.log".
+[0.514s] Invoked command in '/home/user/ros2_ws/src/CheckPoint-9/build/attach_shelf' returned '1': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/user/sim_ws/install/attach_cart:/home/simulations/ros2_sims_ws/install/rclrs_tests:/home/simulations/ros2_sims_ws/install/examples_rclrs_minimal_client_service:/home/simulations/ros2_sims_ws/install/sensor_msgs_py:/home/simulations/ros2_sims_ws/install/examples_rclrs_minimal_pub_sub:/home/simulations/ros2_sims_ws/install/examples_rclrs_message_demo:/home/simulations/ros2_sims_ws/install/rclrs:/home/simulations/ros2_sims_ws/install/rosidl_runtime_rs:/opt/ros/humble _=/usr/bin/env /usr/bin/cmake /home/user/ros2_ws/src/CheckPoint-9/attach_shelf -DCMAKE_INSTALL_PREFIX=/home/user/ros2_ws/src/CheckPoint-9/install/attach_shelf
